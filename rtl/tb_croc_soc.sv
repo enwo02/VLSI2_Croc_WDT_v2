@@ -433,6 +433,13 @@ module tb_croc_soc #(
     assign gpio_i[GpioCount-1:8] = '0;
 
 
+    // --- Watch-dog visibility in TB & VCD ---------------------------------------
+    wire wdt_sys_rst_tb;
+
+    /*  <<<  adjust the dotted path if your instance names differ  >>>            */
+    /*  You can always get the exact path from    make verilator VPATH=1          */
+    assign wdt_sys_rst_tb = i_croc_soc.i_user.i_user_watchdog.sys_rst_o;
+
     /////////////////
     //  Testbench  //
     /////////////////
@@ -444,7 +451,8 @@ module tb_croc_soc #(
         // configure VCD dump
         `ifdef TRACE_WAVE
         $dumpfile("croc.vcd");
-        $dumpvars(1,i_croc_soc);
+        $dumpvars(0,i_croc_soc);
+        $dumpvars(0, wdt_sys_rst_tb);
         `endif
 
         uart_rx_i  = 1'b0;

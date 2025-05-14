@@ -48,6 +48,8 @@ sources:
       # add your design files with modules here
       # Level 3
       - rtl/croc_soc.sv
+      - rtl/user_domain/watchdog.sv
+      - rtl/user_domain/watchdog_wrapper.sv
 
   - target: not(fpga)
     files:

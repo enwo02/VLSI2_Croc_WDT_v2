@@ -30,10 +30,14 @@ module croc_soc import croc_pkg::*; #(
 );
 
   logic synced_rst_n, synced_fetch_en;
+  logic wdt_rst;
+  logic async_rst_n;
+
+  assign async_rst_n = rst_ni & ~wdt_rst;   // LOW either on pin reset or watchdog
 
   rstgen i_rstgen (
     .clk_i,
-    .rst_ni,
+    .rst_ni ( async_rst_n ),
     .test_mode_i ( testmode_i ),
     .rst_no      ( synced_rst_n ),
     .init_no ( )
@@ -109,7 +113,8 @@ user_domain #(
   .user_mgr_obi_rsp_i ( user_mgr_obi_rsp ),
 
   .gpio_in_sync_i ( gpio_in_sync ),
-  .interrupts_o   ( interrupts   )
+  .interrupts_o   ( interrupts   ),
+  .user_watchdog_sys_rst ( wdt_rst )
 );
 
 endmodule

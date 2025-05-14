@@ -3,33 +3,14 @@
 // SPDX-License-Identifier: Apache-2.0/
 //
 // Authors:
-// - Philippe Sauter <phsauter@iis.ee.ethz.ch>
+// - Elio Wanner <ewanner@ethz.ch>
 
-#include "uart.h"
+#include "gpio.h"
 #include "print.h"
 #include "timer.h"
-#include "gpio.h"
+#include "uart.h"
+#include "watchdog.h"
 #include "util.h"
-
-/// @brief Example integer square root
-/// @return integer square root of n
-uint32_t isqrt(uint32_t n) {
-    uint32_t res = 0;
-    uint32_t bit = (uint32_t)1 << 30;
-
-    while (bit > n) bit >>= 2;
-
-    while (bit) {
-        if (n >= res + bit) {
-            n -= res + bit;
-            res = (res >> 1) + bit;
-        } else {
-            res >>= 1;
-        }
-        bit >>= 2;
-    }
-    return res;
-}
 
 int main() {
     uart_init(); // setup the uart peripheral
@@ -39,30 +20,45 @@ int main() {
     // wait until uart has finished sending
     uart_write_flush();
 
-    // toggling some GPIOs
-    gpio_set_direction(0xFFFF, 0x000F); // lowest four as outputs
-    gpio_write(0x0A);  // ready output pattern
-    gpio_enable(0xFF); // enable lowest eight
-    // wait a few cycles to give GPIO signal time to propagate
-    asm volatile ("nop; nop; nop; nop; nop;");
-    printf("GPIO (expect 0xA0): 0x%x\n", gpio_read());
-
-    gpio_toggle(0x0F); // toggle lower 8 GPIOs
-    asm volatile ("nop; nop; nop; nop; nop;");
-    printf("GPIO (expect 0x50): 0x%x\n", gpio_read());
+  // using the watchdog
+  printf("Watchdog test\n");
     uart_write_flush();
 
-    // doing some compute
-    uint32_t start = get_mcycle();
-    uint32_t res   = isqrt(1234567890UL);
-    uint32_t end   = get_mcycle();
-    printf("Result: 0x%x, Cycles: 0x%x\n", res, end - start);
+  watchdog_set_timeout(200 * 1000 );
+  watchdog_kick();
+
+  // wait 8 cycles
+  asm volatile("nop; nop; nop; nop; nop; nop; nop; nop;");
+
+  watchdog_kick();
+
+  // wait 11 cycles
+  asm volatile("nop; nop; nop; nop; nop; nop; nop; nop; nop; nop; nop;");
+  
+  // Here the reset should be active
+  watchdog_kick();
+
+  printf("Watchdog test end\n");
+  printf(" \n");
     uart_write_flush();
 
-    // using the timer
-    printf("Tick\n");
-    sleep_ms(10);
-    printf("Tock\n");
+  // Run forever
+  uint32_t i = 0;
+  while (1) {
+    // Kick the watchdog and then do some things
+    watchdog_kick();
+
+    printf("This is the main program now!\n");
+    asm volatile("nop; nop; nop; nop; nop; nop; nop; nop;");
+
+    if (i==3) {
+      printf("I will be stuck in an infinite loop!\n");
     uart_write_flush();
+      while(1);
+    }
+
+    i++;
+  }
+
     return 1;
 }

@@ -4,6 +4,7 @@
 //
 // Authors:
 // - Philippe Sauter <phsauter@iis.ee.ethz.ch>
+// - Elio Wanner <ewanner@ethz.ch>
 
 module user_domain import user_pkg::*; import croc_pkg::*; #(
   parameter int unsigned GpioCount = 16
@@ -20,7 +21,9 @@ module user_domain import user_pkg::*; import croc_pkg::*; #(
   input  mgr_obi_rsp_t user_mgr_obi_rsp_i,
 
   input  logic [      GpioCount-1:0] gpio_in_sync_i, // synchronized GPIO inputs
-  output logic [NumExternalIrqs-1:0] interrupts_o // interrupts to core
+  output logic [NumExternalIrqs-1:0] interrupts_o, // interrupts to core
+
+  output logic user_watchdog_sys_rst // watchdog system reset
 );
 
   assign interrupts_o = '0;  
@@ -46,6 +49,10 @@ module user_domain import user_pkg::*; import croc_pkg::*; #(
   sbr_obi_req_t [NumDemuxSbr-1:0] all_user_sbr_obi_req;
   sbr_obi_rsp_t [NumDemuxSbr-1:0] all_user_sbr_obi_rsp;
 
+  // Watchdog Subordinate Bus
+  sbr_obi_req_t user_watchdog_obi_req;
+  sbr_obi_rsp_t user_watchdog_obi_rsp;
+
   // Error Subordinate Bus
   sbr_obi_req_t user_error_obi_req;
   sbr_obi_rsp_t user_error_obi_rsp;
@@ -53,6 +60,8 @@ module user_domain import user_pkg::*; import croc_pkg::*; #(
   // Fanout into more readable signals
   assign user_error_obi_req              = all_user_sbr_obi_req[UserError];
   assign all_user_sbr_obi_rsp[UserError] = user_error_obi_rsp;
+  assign user_watchdog_obi_req           = all_user_sbr_obi_req[UserWatchdog];
+  assign all_user_sbr_obi_rsp[UserWatchdog] = user_watchdog_obi_rsp;
 
 
   //-----------------------------------------------------------------------------------------------
@@ -114,5 +123,20 @@ module user_domain import user_pkg::*; import croc_pkg::*; #(
     .obi_req_i  ( user_error_obi_req ),
     .obi_rsp_o  ( user_error_obi_rsp )
   );
+
+  // Watchdog Subordinate
+  watchdog_wrapper #(
+    .BASE_ADDR (32'h2000_0000),
+    .ObiCfg      ( SbrObiCfg     ),
+    .obi_req_t   ( sbr_obi_req_t ),
+    .obi_rsp_t   ( sbr_obi_rsp_t )
+    ) i_user_watchdog (
+    .clk_i      ( clk_i                      ),
+    .rst_ni     ( rst_ni                     ),
+    .obi_req_i  ( user_watchdog_obi_req       ),
+    .obi_rsp_o  ( user_watchdog_obi_rsp       ),
+    .sys_rst_o  ( user_watchdog_sys_rst     )
+  );
+
 
 endmodule

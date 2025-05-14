@@ -1,0 +1,142 @@
+{
+  "extensionVersion": "1.3.3",
+  "fileName": "/Users/eliowanner/Library/CloudStorage/OneDrive-Personal/Dokumente/ETHZ/Sem2/VLSI_2/VLSI2_Croc_WDT/croc/verilator/croc.vcd",
+  "markerTime": 18709377165,
+  "altMarkerTime": null,
+  "selectedSignal": {
+    "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.obi_req_i.a.we",
+    "numberFormat": "hexadecimal",
+    "msb": -1,
+    "lsb": -1
+  },
+  "zoomRatio": 0.0023518540708759384,
+  "scrollLeft": 43823581.86695253,
+  "displayedSignals": [
+    {
+      "netlistId": 9602,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.i_watchdog.clk_i",
+      "numberFormat": "binary",
+      "colorIndex": 0,
+      "renderType": "binary"
+    },
+    {
+      "netlistId": 9603,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.i_watchdog.rst_ni",
+      "numberFormat": "binary",
+      "colorIndex": 0,
+      "renderType": "binary"
+    },
+    {
+      "netlistId": 9604,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.i_watchdog.kick_i",
+      "numberFormat": "binary",
+      "colorIndex": 0,
+      "renderType": "binary"
+    },
+    {
+      "netlistId": 9605,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.i_watchdog.timeout_i",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "renderType": "multiBit"
+    },
+    {
+      "netlistId": 9606,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.i_watchdog.sys_rst_o",
+      "numberFormat": "binary",
+      "colorIndex": 0,
+      "renderType": "binary"
+    },
+    {
+      "netlistId": 9607,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.i_watchdog.counter_q",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "renderType": "multiBit"
+    },
+    {
+      "netlistId": 9608,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.i_watchdog.counter_d",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "renderType": "multiBit"
+    },
+    {
+      "netlistId": 9580,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.obi_rsp_o.gnt",
+      "numberFormat": "binary",
+      "colorIndex": 0,
+      "renderType": "binary"
+    },
+    {
+      "netlistId": 9575,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.obi_req_i.req",
+      "numberFormat": "binary",
+      "colorIndex": 0,
+      "renderType": "binary"
+    },
+    {
+      "netlistId": 9569,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.obi_req_i.a.addr",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "renderType": "multiBit"
+    },
+    {
+      "netlistId": 9570,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.obi_req_i.a.we",
+      "numberFormat": "binary",
+      "colorIndex": 0,
+      "renderType": "binary"
+    },
+    {
+      "netlistId": 9571,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.obi_req_i.a.be",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "renderType": "multiBit"
+    },
+    {
+      "netlistId": 9572,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.obi_req_i.a.wdata",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "renderType": "multiBit"
+    },
+    {
+      "netlistId": 9573,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.obi_req_i.a.aid",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "renderType": "multiBit"
+    },
+    {
+      "netlistId": 9574,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.obi_req_i.a.a_optional",
+      "numberFormat": "binary",
+      "colorIndex": 0,
+      "renderType": "binary"
+    },
+    {
+      "netlistId": 9550,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.ObiCfg.UseRReady",
+      "numberFormat": "binary",
+      "colorIndex": 0,
+      "renderType": "binary"
+    },
+    {
+      "netlistId": 9577,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.obi_rsp_o.r.rid",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "renderType": "multiBit"
+    },
+    {
+      "netlistId": 9576,
+      "name": "tb_croc_soc.i_croc_soc.i_user.i_user_watchdog.obi_rsp_o.r.rdata",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "renderType": "multiBit"
+    }
+  ]
+}

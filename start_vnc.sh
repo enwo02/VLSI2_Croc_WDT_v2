@@ -104,7 +104,7 @@ fi
 if [ "$VNC_PORT" -gt 0 ]; then
 	PARAMS="$PARAMS -p $VNC_PORT:5901"
 fi
-
+VNC_PW=Test
 if [ -n "${VNC_PW}" ]; then
 	PARAMS="${PARAMS} -e VNC_PW=${VNC_PW}"
 fi
