@@ -1,0 +1,40 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%                                                                 %
+%%%%%     04_wdt_implementation.tex                                   %
+%%%%%                                                                 %
+%%%%% Author:      Miguel Correa, Elio Wanner                         %
+%%%%% Created:     17.03.2025                                         %
+%%%%% Description: In here is the description of the hardware         %
+%%%%%                                                                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Hardware Architecture}
+This chapter describes the hardware architecture of the Watchdog Timer that we implemented in the Croc SoC.
+In the different sections we talk about different implementations with different features and complexities.
+
+\section{Simple Watchdog Timer}
+\subsection{Hardware implementation}
+The first implementation of the Watchdog Timer is the simplest one we could imagine. 
+As shown in Figure \ref{fig:simple_WDT}, the WDT is composed of
+very few components. The main component is the counter, which is
+incremented every clock cycle and implemented as a flip-flop. The counter is connected to a comparator
+that checks if the counter has reached a certain value. If the counter
+reaches the value, the comparator will trigger a reset signal that will
+reset the system. Otherwise, we keep incrementing the counter. As soon as we get
+a kick signal, the counter is reset to zero.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{./figures/simple_WDT}
+\caption{Simple Watchdog Timer Architecture}
+\label{fig:simple_WDT}
+\end{figure}
+
+\subsection{Tests and Results}
+
+\subsection{Conclusion}
+
+\section{Watchdog Timer with 2 stages}
+This is for later.

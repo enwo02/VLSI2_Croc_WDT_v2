@@ -1,0 +1,30 @@
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Overview of the Croc SoC and its open-source nature}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Why a watchdog timer (WDT) was needed}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Goals and expected improvements}{1}{section.1.3}%
+\contentsline {chapter}{\numberline {2}Related Works}{2}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Overview of existing watchdog timer implementation}{2}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Justification for our approach}{2}{section.2.2}%
+\contentsline {chapter}{\numberline {3}Methodology}{3}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Design choices for WDT (e.g., countdown vs. count-up, reset duration)}{3}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Testing strategy (testbenches, simulation tools)}{3}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Debugging and iteration process}{3}{section.3.3}%
+\contentsline {chapter}{\numberline {4}Hardware Architecture}{4}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Simple Watchdog Timer}{4}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Hardware implementation}{4}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Tests and Results}{4}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Conclusion}{4}{subsection.4.1.3}%
+\contentsline {section}{\numberline {4.2}Watchdog Timer with 2 stages}{4}{section.4.2}%
+\contentsline {chapter}{\numberline {5}Evaluation}{6}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Simulation results for v1 and v2}{6}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Performance comparison (goal achieved?)}{6}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Trade-offs between versions}{6}{section.5.3}%
+\contentsline {chapter}{\numberline {6}Discussion}{7}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Strengths and limitations of each approach}{7}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Potential improvements (e.g., three-stage WDT)}{7}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Lessons learned from the implementation}{7}{section.6.3}%
+\contentsline {chapter}{\numberline {7}Conclusion}{8}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Summary of key findings}{8}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Future work and next steps}{8}{section.7.2}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

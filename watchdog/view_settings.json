@@ -1,0 +1,67 @@
+{
+  "extensionVersion": "1.3.3",
+  "fileName": "/Users/eliowanner/Library/CloudStorage/OneDrive-Personal/Dokumente/ETHZ/Sem2/VLSI_2/VLSI2_Croc_WDT/watchdog/watchdog.vcd",
+  "markerTime": null,
+  "altMarkerTime": null,
+  "selectedSignal": null,
+  "zoomRatio": 0.0004228434213897042,
+  "scrollLeft": 0,
+  "displayedSignals": [
+    {
+      "netlistId": 20,
+      "name": "tb_watchdog.i_dut.clk_i",
+      "numberFormat": "binary",
+      "colorIndex": 0,
+      "renderType": "binary"
+    },
+    {
+      "netlistId": 21,
+      "name": "tb_watchdog.i_dut.rst_ni",
+      "numberFormat": "binary",
+      "colorIndex": 0,
+      "renderType": "binary"
+    },
+    {
+      "netlistId": 22,
+      "name": "tb_watchdog.i_dut.kick_i",
+      "numberFormat": "binary",
+      "colorIndex": 0,
+      "renderType": "binary"
+    },
+    {
+      "netlistId": 23,
+      "name": "tb_watchdog.i_dut.timeout_i",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "renderType": "multiBit"
+    },
+    {
+      "netlistId": 24,
+      "name": "tb_watchdog.i_dut.sys_rst_o",
+      "numberFormat": "binary",
+      "colorIndex": 0,
+      "renderType": "binary"
+    },
+    {
+      "netlistId": 25,
+      "name": "tb_watchdog.i_dut.counter_q",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "renderType": "multiBit"
+    },
+    {
+      "netlistId": 26,
+      "name": "tb_watchdog.i_dut.counter_d",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "renderType": "multiBit"
+    },
+    {
+      "netlistId": 28,
+      "name": "tb_watchdog.stim_apply.cycle_count",
+      "numberFormat": "hexadecimal",
+      "colorIndex": 0,
+      "renderType": "multiBit"
+    }
+  ]
+}
