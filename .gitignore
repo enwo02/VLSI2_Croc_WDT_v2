@@ -1,2 +1,6 @@
 .bender
 tmp
+.DS_Store
+*/.DS_Store
+croc.flist
+start_vnc.sh
