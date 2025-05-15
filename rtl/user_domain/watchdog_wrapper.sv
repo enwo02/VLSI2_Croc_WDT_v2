@@ -4,12 +4,7 @@
 //
 // Authors:
 // - Elio Wanner <ewanner@ethz.ch>
-// - Miguel Correa <mcorrea@ethz.ch>
-
-//------------------------------------------------------------------------------
-// Watch-dog OBI wrapper  (8-byte register block)
-//   0x00  W   Kick      – write anything to reset the counter
-//   0x04  RW  Timeout   – 32-bit timeout value
+// - Miguel Correa <corream@ethz.ch>
 //------------------------------------------------------------------------------
 `include "common_cells/registers.svh"
 
@@ -43,10 +38,12 @@ module watchdog_wrapper #(
   // Internal signals, registers
   logic [31:0] timeout_d, timeout_q;
   logic        kick_pulse_d, kick_pulse_q;
+  logic        sys_rst_d, sys_rst_q;
 
   // Flip flops from registers.shv
   `FF(timeout_q, timeout_d, 32'hFFFFFFFF);
   `FF(kick_pulse_q, kick_pulse_d, '0);
+  `FF(sys_rst_q, sys_rst_d, '0);
 
   `FF(req_q, req_d, '0);
   `FF(id_q , id_d , '0);
@@ -91,6 +88,8 @@ module watchdog_wrapper #(
     end
   end
 
+  // Wire the output
+  assign sys_rst_o = sys_rst_q; // One cycle delay to have time to "see" signal
   // Wire the response
   // A channel
   assign obi_rsp_o.gnt = obi_req_i.req;
@@ -107,7 +106,7 @@ module watchdog_wrapper #(
     .rst_ni    ( rst_ni       ),
     .kick_i    ( kick_pulse_q ),
     .timeout_i ( timeout_q    ),
-    .sys_rst_o ( sys_rst_o    )
+    .sys_rst_o ( sys_rst_d    )
   );
 
 endmodule
