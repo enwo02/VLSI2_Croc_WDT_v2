@@ -11,11 +11,9 @@
 //   0x00  W   Kick      – write anything to reset the counter
 //   0x04  RW  Timeout   – 32-bit timeout value
 //------------------------------------------------------------------------------
-`include "obi/typedef.svh"
-`include "obi/assign.svh"
+`include "common_cells/registers.svh"
 
 module watchdog_wrapper #(
-  parameter logic [31:0]       BASE_ADDR = 32'h2000_0000,
   parameter obi_pkg::obi_cfg_t ObiCfg    = obi_pkg::ObiDefaultConfig,
   parameter type               obi_req_t = logic,
   parameter type               obi_rsp_t = logic
@@ -31,148 +29,79 @@ module watchdog_wrapper #(
   output logic     sys_rst_o
 );
 
-  // ---------------------------------------------------------------------------
-  // 1. Pipeline the incoming request (aligns with the other Croc slaves)
-  // ---------------------------------------------------------------------------
-  logic                       req_q;
-  logic                       we_q;
-  logic [3:0]                 addr_lo_q;
-  logic [3:0]                 be_q;
-  logic [ObiCfg.IdWidth-1:0]  aid_q;
-  logic [31:0]                wdata_q;
+  // Define some registers to hold the requests fields
+  logic req_d, req_q;
+  logic we_d, we_q;
+  logic [ObiCfg.AddrWidth-1:0] addr_d, addr_q;
+  logic [ObiCfg.IdWidth-1:0] id_d, id_q;
+  logic [ObiCfg.DataWidth-1:0] wdata_d, wdata_q;
 
-  always_ff @(posedge clk_i or negedge rst_ni) begin
-    if (!rst_ni) begin
-      req_q     <= 1'b0;
-      we_q      <= 1'b0;
-      addr_lo_q <= '0;
-      be_q      <= '0;
-      aid_q     <= '0;
-      wdata_q   <= '0;
-    end else begin
-      req_q     <= obi_req_i.req;
-      we_q      <= obi_req_i.a.we;
-      addr_lo_q <= obi_req_i.a.addr[3:0];
-      be_q      <= obi_req_i.a.be;
-      aid_q     <= obi_req_i.a.aid;
-      wdata_q   <= obi_req_i.a.wdata;
-    end
-  end
+  // Signals used to create the response
+  logic [ObiCfg.DataWidth-1:0] rsp_data; // Data field of the obi response
+  logic rsp_err; // Error field of the obi response
 
-  // ---------------------------------------------------------------------------
-  // 2. Address decoding and handshake signals
-  // ---------------------------------------------------------------------------
-  logic hit_kick_q    = (addr_lo_q == 4'h0);
-  logic hit_timeout_q = (addr_lo_q == 4'h4);
-  logic addr_hit_q    = hit_kick_q | hit_timeout_q;
+  // Internal signals, registers
+  logic [31:0] timeout_d, timeout_q;
+  logic        kick_pulse_d, kick_pulse_q;
 
-  // Grant / accept for the pipelined request
-  logic gnt;
-  assign gnt    = req_q & addr_hit_q;      // stay high as long as req_q is high
-  logic accept  = gnt;                     // request taken in the same cycle
+  // Flip flops from registers.shv
+  `FF(timeout_q, timeout_d, 32'hFFFFFFFF);
+  `FF(kick_pulse_q, kick_pulse_d, '0);
 
-  // ---------------------------------------------------------------------------
-  // 3. Read-response bookkeeping
-  // ---------------------------------------------------------------------------
-  logic                      rsp_pending_q, rsp_pending_d;
-  logic                      pop_rsp;
-  logic [ObiCfg.IdWidth-1:0] rid_q,  rid_d;
-  logic [31:0]               rdata_q, rdata_d;
-  logic                      rerr_q,  rerr_d;
+  `FF(req_q, req_d, '0);
+  `FF(id_q , id_d , '0);
+  `FF(we_q , we_d , '0);
+  `FF(wdata_q , wdata_d , '0);
+  `FF(addr_q , addr_d , '0);
 
-  // rready only exists if the config enables it
-  generate
-    if (ObiCfg.UseRReady) begin : g_with_rready
-      assign pop_rsp = obi_rsp_o.rvalid & obi_rsp_o.r.rready;
-    end else begin : g_without_rready
-      assign pop_rsp = obi_rsp_o.rvalid;
-    end
-  endgenerate
 
-  // ---------------------------------------------------------------------------
-  // 4. Combinational section
-  // ---------------------------------------------------------------------------
-  logic        kick_pulse_d;
-  logic [31:0] timeout_d;
-  logic [31:0] timeout_q = 32'hFFFFFFFF;       // default to max timeout
+  assign req_d = obi_req_i.req;
+  assign id_d = obi_req_i.a.aid;
+  assign we_d = obi_req_i.a.we;
+  assign addr_d = obi_req_i.a.addr;
+  assign wdata_d = obi_req_i.a.wdata;
 
+  // Address decoding
+  logic [1:0] word_addr;
   always_comb begin
-    // defaults
-    kick_pulse_d  = 1'b0;
-    rdata_d       = '0;
-    rerr_d        = 1'b0;
-    rid_d         = aid_q;
-    rsp_pending_d = rsp_pending_q;
-    timeout_d     = timeout_q;
+    rsp_data = '0;
+    rsp_err  = '0;
+    word_addr = addr_q[3:2];
+    timeout_d = timeout_q;
+    kick_pulse_d = 1'b0;
 
-    if (accept) begin
-      //------------------------- WRITE ----------------------------------------
-      if (we_q) begin
-        if (hit_kick_q) begin
-          kick_pulse_d = 1'b1;
-        end else if (hit_timeout_q) begin
-          timeout_d = timeout_q;                // start from old value
-          for (int i = 0; i < 4; i++)
-            if (be_q[i])
-              timeout_d[i*8 +: 8] = wdata_q[i*8 +: 8];
+    if(req_q) begin
+      case(word_addr)
+        2'h0: begin
+          if(we_q) begin
+            kick_pulse_d = 1'b1;
+          end else begin
+            rsp_err = '1;
+          end
         end
-        rsp_pending_d = 1'b1;
-      //------------------------- READ -----------------------------------------
-      end else begin
-        if (hit_timeout_q)      rdata_d = timeout_q;
-        else if (hit_kick_q)    rdata_d = 32'h0;
-        else begin
-          rdata_d = 32'hDEAD_BEEF;
-          rerr_d  = 1'b1;
+        2'h1: begin
+          if(we_q) begin
+            timeout_d = wdata_q;
+          end else begin
+            rsp_data = timeout_q;
+          end
         end
-        rsp_pending_d = 1'b1;                 // owe a read response
-      end
-    end
-
-    // clear pending flag once response is taken
-    if (rsp_pending_q && pop_rsp)
-      rsp_pending_d = 1'b0;
-  end
-
-  // ---------------------------------------------------------------------------
-  // 5. Sequential section
-  // ---------------------------------------------------------------------------
-  logic kick_pulse_q;
-
-  always_ff @(posedge clk_i or negedge rst_ni) begin
-    if (!rst_ni) begin
-      kick_pulse_q  <= 1'b0;
-      rsp_pending_q <= 1'b0;
-      rid_q         <= '0;
-      rdata_q       <= '0;
-      rerr_q        <= 1'b0;
-    end else begin
-      kick_pulse_q  <= kick_pulse_d;
-      timeout_q     <= timeout_d;
-      rsp_pending_q <= rsp_pending_d;
-      rid_q         <= rid_d;
-      if (accept && !we_q) begin       // capture read data/err
-        rdata_q <= rdata_d;
-        rerr_q  <= rerr_d;
-      end
+        default: rsp_data = 32'hffffffff;
+      endcase
     end
   end
 
-  // ---------------------------------------------------------------------------
-  // 6. Drive OBI response channel
-  // ---------------------------------------------------------------------------
-  always_comb begin
-    obi_rsp_o = '0;                    // X-prop barrier
-    obi_rsp_o.gnt     = gnt;
-    obi_rsp_o.rvalid  = rsp_pending_q;//1'b1;
-    obi_rsp_o.r.rdata = rdata_q;
-    obi_rsp_o.r.rid   = rid_q;
-    obi_rsp_o.r.err   = rerr_q;  
-  end
+  // Wire the response
+  // A channel
+  assign obi_rsp_o.gnt = obi_req_i.req;
+  // R channel:
+  assign obi_rsp_o.rvalid = req_q;
+  assign obi_rsp_o.r.rdata = rsp_data;
+  assign obi_rsp_o.r.rid = id_q;
+  assign obi_rsp_o.r.err = rsp_err;
+  assign obi_rsp_o.r.r_optional = '0;
 
-  // ---------------------------------------------------------------------------
-  // 7. Instantiate watchdog core
-  // ---------------------------------------------------------------------------
+  // Instantiate watchdog core
   watchdog i_watchdog (
     .clk_i     ( clk_i        ),
     .rst_ni    ( rst_ni       ),

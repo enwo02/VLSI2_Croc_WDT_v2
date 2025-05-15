@@ -4,3 +4,4 @@ tmp
 */.DS_Store
 croc.flist
 start_vnc.sh
+*/saved_view.json
