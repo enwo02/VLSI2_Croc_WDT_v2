@@ -49,6 +49,10 @@ module user_domain import user_pkg::*; import croc_pkg::*; #(
   sbr_obi_req_t [NumDemuxSbr-1:0] all_user_sbr_obi_req;
   sbr_obi_rsp_t [NumDemuxSbr-1:0] all_user_sbr_obi_rsp;
 
+  // ROM Subordinate Bus
+  sbr_obi_req_t user_rom_obi_req;
+  sbr_obi_rsp_t user_rom_obi_rsp;
+ 
   // Watchdog Subordinate Bus
   sbr_obi_req_t user_watchdog_obi_req;
   sbr_obi_rsp_t user_watchdog_obi_rsp;
@@ -62,7 +66,8 @@ module user_domain import user_pkg::*; import croc_pkg::*; #(
   assign all_user_sbr_obi_rsp[UserError] = user_error_obi_rsp;
   assign user_watchdog_obi_req           = all_user_sbr_obi_req[UserWatchdog];
   assign all_user_sbr_obi_rsp[UserWatchdog] = user_watchdog_obi_rsp;
-
+  assign user_rom_obi_req                = all_user_sbr_obi_req[UserRom];
+  assign all_user_sbr_obi_rsp[UserRom]   = user_rom_obi_rsp;
 
   //-----------------------------------------------------------------------------------------------
   // Demultiplex to User Subordinates according to address map
@@ -122,6 +127,18 @@ module user_domain import user_pkg::*; import croc_pkg::*; #(
     .testmode_i ( testmode_i      ),
     .obi_req_i  ( user_error_obi_req ),
     .obi_rsp_o  ( user_error_obi_rsp )
+  );
+
+  // User ROM
+  user_rom #(
+    .ObiCfg      ( SbrObiCfg     ),
+    .obi_req_t   ( sbr_obi_req_t ),
+    .obi_rsp_t   ( sbr_obi_rsp_t )
+  ) i_user_rom (
+    .clk_i,
+    .rst_ni,
+    .obi_req_i  ( user_rom_obi_req ),
+    .obi_rsp_o  ( user_rom_obi_rsp )
   );
 
   // Watchdog Subordinate

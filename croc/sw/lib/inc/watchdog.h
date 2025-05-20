@@ -10,7 +10,7 @@
 #include <stdint.h>
 
 /* --------  memory-mapped register addresses  -------- */
-#define WDT_BASE      0x20000000u       /*  UserWatchdogAddrOffset            */
+#define WDT_BASE      0x20001000u       /*  UserWatchdogAddrOffset            */
 #define WDT_KICK_OFFS 0x00u             /*  kick register                     */
 #define WDT_TO_OFFS   0x04u             /*  timeout register                  */
 
