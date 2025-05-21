@@ -18,14 +18,19 @@
 \label{chap:methodology}
 
 \section{Design choices for WDT (e.g., countdown vs. count-up, reset duration)}
-Explain that we decided to make a simple watchdog, independent from croc to keep it simple.
-Then, we added a wrapper to be able to connect it to OBI and croc.
-Our watchdog uses cout-up (was our own choice) and have a 1 cycle reset duration, 
-wich we found enough.
+TODO: INCLUDE IMAGE AND REF TO IMAGE IN USER DOM
+\\
+To equip CROC with automatic fault recovery, we designed a hardware watchdog and an OBI-protocol wrapper in the user\_domain. Our key design decisions were:
+\begin{itemize}
+	\item{Count-up timer:} We adopted the classic count-up approach (versus down-counter) because it aligns with industry practice and synthesizes to minimal logic. On each clock cycle that the watchdog is enabled and not refreshed, a small counter increments. Reaching its terminal value triggers a timeout event.
+  \item{One-cycle reset pulse:} Upon timeout, the watchdog emits a one-cycle reset pulse. One cycle is sufficient to assert the global reset input across all domains and restart the entire SoC from its defined reset vector, without introducing undue latency or complicating the reset tree.
+  \item{Hardware implementation:} A hardware watchdog can detect and recover from processor hangs or bus deadlocks even when the CPU itself has stopped executing instructions. A purely software watchdog—implemented as a loop in firmware—cannot fire if the CPU is already stalled, so it cannot guarantee recovery in all fault scenarios.
+  \item{OBI-protocol wrapper:} The wrapper translates OBI reads and writes into the internal control signals of the counter, keeping the watchdog core itself free of bus-interface complexity. 
+  \item{Placement in user\_domain:} By locating the watchdog in the user\_domain, we avoid touching the croc\_domain’s stable, taped-out infrastructure.
+
+\end{itemize}
 
 \section{Testing strategy (testbenches, simulation tools)}
-At each step we tested our watchdog, from the simple watchdog to the communication with obi and finally the whole connected croc.
-If we have time, we want to test a real life scenario (maybe a gpio that returns nothing so our program is stuck?).
 
 \section{Debugging and iteration process}
 By separating the work in easy, well separated steps it was easy to debbug.

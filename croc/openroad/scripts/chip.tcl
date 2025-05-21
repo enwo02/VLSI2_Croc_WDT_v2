@@ -181,7 +181,7 @@ save_checkpoint ${log_id_str}_${proj_name}.dpl
 report_image "${log_id_str}_${proj_name}.dpl" true true
 
 # This line should be removed for full synthesis
- gui::show
+# gui::show
 
 ###############################################################################
 # CLOCK TREE SYNTHESIS                                                        #

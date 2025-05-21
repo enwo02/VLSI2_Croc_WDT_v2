@@ -1,3 +1,3 @@
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1.1}Overview of the Croc SoC and its open-source nature}{\reset@font\mtcSfont 1}{section.1.1}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1.2}Why a watchdog timer (WDT) was needed}{\reset@font\mtcSfont 1}{section.1.2}}
-{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1.3}Goals and expected improvements}{\reset@font\mtcSfont 1}{section.1.3}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1.1}Overview of the Croc SoC}{\reset@font\mtcSfont 1}{section.1.1}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1.2}Motivation for Watchdog Integration}{\reset@font\mtcSfont 1}{section.1.2}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {1.3}Project Objectives}{\reset@font\mtcSfont 1}{section.1.3}}

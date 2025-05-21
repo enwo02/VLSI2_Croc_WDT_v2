@@ -16,23 +16,24 @@
 \chapter{Introduction}
 \label{chap:introduction}
 
-\section{Overview of the Croc SoC and its open-source nature}
-\begin{itemize}
-	\item Picture of Croc SoC
-	\item Quick explanation of its main parts and mostly what we are using  (userdomain)
-	\item Mention that it is open-source and the importance of this, but also why it has to be robust for it to be competitive with closed source in real life scenarios
-\end{itemize}
-\section{Why a watchdog timer (WDT) was needed}
-\begin{itemize}
-	\item Real life scenario as an example of anoying stuck in a loop chip (if possible, true historic reference)
-	\item Explain what is a watchdog timer and how it would prevent this
-	\item From this go on and conclude it was needed on the Croc SoC
-\end{itemize}
+\section{Overview of the Croc SoC}
+CROC SoC is a lightweight, open-source system-on-chip designed for education and rapid prototyping. It provides a complete RTL-to-GDSII flow and basic processor and peripheral infrastructure, and even includes an explicit user\_domain where students can add and test their own modifications. As a relatively new project, CROC isn’t yet fully optimized, leaving ample room to enhance its reliability, performance, and feature set.
 
-\section{Goals and expected improvements}
+\section{Motivation for Watchdog Integration}
+TODO: ADD SOURCE NASA
+\\
+In May 1994, the NASA Clementine lunar probe suffered a critical onboard computer failure shortly after departing lunar orbit. A malfunction caused one of its thrusters to fire uncontrollably, spinning the spacecraft at 80 rpm until it exhausted its remaining fuel. NASA was able to bring Clementine back online with a manual reset command, but only after the mission’s continuation toward its asteroid target had become impossible. As it later emerged, just a few lines of watchdog-timer code—hard-wired into the flight computer—would have detected the hang, issued an automatic reset immediately, and prevented the thruster runaway that doomed the asteroid rendezvous.
+\\
+Likewise, in the CROC SoC environment—where students routinely extend the design with custom peripherals and firmware—undetected hangs or deadlocks can leave the chip in an unusable state. Embedding a hardware watchdog ensures that any such fault triggers an automatic reset to a known-good state, dramatically improving system robustness and streamlining recovery during both development and tape-out testing.
+
+\section{Project Objectives}
+This project aims to design and integrate a simple yet effective hardware watchdog timer into the CROC SoC, with the following objectives:
 \begin{itemize}
-	\item Emphasize on the main goals of the watchdog, with bullet points if possible to emphasize even more. THe main goals being: improve robustness while keeping area and throughput as low as possible. (should we add more goals?)
+  \item{Reliable Fault Detection:} Detect processor stalls or bus deadlocks within a bounded timeout period.
+  \item{Automatic Recovery:} Trigger a chip-wide reset when the watchdog expires, returning the system to a known-good state.
+  \item{Minimal Overhead:} Add the watchdog with low area, timing, and power impact, preserving CROC’s lightweight footprint.
 \end{itemize}
+With these goals, the watchdog integration will bolster CROC’s robustness without compromising its simplicity or educational value.
 
 %%% Local Variables: 
 %%% mode: latex
