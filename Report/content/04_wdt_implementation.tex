@@ -33,8 +33,15 @@ a kick signal, the counter is reset to zero.
 \end{figure}
 
 \subsection{Tests and Results}
+Explain how we did the tests (python files to generate stimuli + expected then compare), show figure.
+Explain that the results were always good at the end.
 
 \subsection{Conclusion}
+Explain that thanks to our approach we found that the watchdog works fine, so if a future problem would come it would come from the wrapper.
 
-\section{Watchdog Timer with 2 stages}
-This is for later.
+\section{Watchdog Wrapper}
+\subsection{Hardware implementation}
+Add a graph of the watchdog wrapper, and maybe a figure of how it connects to the OBI protocol.
+
+\subsection{Tests and Results}
+We checked the functionality of our wrapper by running a helloword.c wich sets the timeout value and sends periodic kicks befor getting stuck in an impossible task. Our watchdog was successfully set thanks to the correctness of the wrapper and it allowed us to reset the program. We also checked the VCD to see if we could find any anormalities, but our wrapper respects OBI protocol :) .

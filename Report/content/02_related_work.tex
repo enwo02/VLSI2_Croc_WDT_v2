@@ -16,5 +16,14 @@
 \label{chap:related_work}
 
 \section{Overview of existing watchdog timer implementation}
+\begin{itemize}
+  \item State several possible watchdog implementations, with sources.
+  \item Explain that it is possible to keep it really simple or to complicate
+    it by adding some features, like having a log to know why the watchdog triggered.
+\end{itemize}
 
 \section{Justification for our approach}
+Now, explain our choice to keep it small, simple, energy efficient easy to understand
+and easy to "take over" if it is needed for something else.
+Explain that the trade off gains in robustness of croc vs complication of watch dog is
+the best by keeping the watchdog simple.

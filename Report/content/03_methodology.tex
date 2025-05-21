@@ -18,7 +18,15 @@
 \label{chap:methodology}
 
 \section{Design choices for WDT (e.g., countdown vs. count-up, reset duration)}
+Explain that we decided to make a simple watchdog, independent from croc to keep it simple.
+Then, we added a wrapper to be able to connect it to OBI and croc.
+Our watchdog uses cout-up (was our own choice) and have a 1 cycle reset duration, 
+wich we found enough.
 
 \section{Testing strategy (testbenches, simulation tools)}
+At each step we tested our watchdog, from the simple watchdog to the communication with obi and finally the whole connected croc.
+If we have time, we want to test a real life scenario (maybe a gpio that returns nothing so our program is stuck?).
 
 \section{Debugging and iteration process}
+By separating the work in easy, well separated steps it was easy to debbug.
+

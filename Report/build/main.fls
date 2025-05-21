@@ -833,9 +833,6 @@ INPUT build/./content/04_wdt_implementation.aux
 INPUT build/./content/05_evaluation.aux
 INPUT build/./content/05_evaluation.aux
 INPUT build/./content/05_evaluation.aux
-INPUT build/./content/06_discussion.aux
-INPUT build/./content/06_discussion.aux
-INPUT build/./content/06_discussion.aux
 INPUT build/./content/07_conclusion.aux
 INPUT build/./content/07_conclusion.aux
 INPUT build/./content/07_conclusion.aux
@@ -877,7 +874,6 @@ OUTPUT build/main.mtc3
 OUTPUT build/main.mtc4
 OUTPUT build/main.mtc5
 OUTPUT build/main.mtc6
-OUTPUT build/main.mtc7
 INPUT ./content/00_0_title.tex
 INPUT ./content/00_0_title.tex
 INPUT ./content/00_0_title.tex
@@ -982,12 +978,6 @@ OUTPUT build/./content/05_evaluation.aux
 INPUT ./content/05_evaluation.tex
 INPUT ./content/05_evaluation.tex
 INPUT ./content/05_evaluation.tex
-INPUT ./content/06_discussion.tex
-INPUT ./content/06_discussion.tex
-OUTPUT build/./content/06_discussion.aux
-INPUT ./content/06_discussion.tex
-INPUT ./content/06_discussion.tex
-INPUT ./content/06_discussion.tex
 INPUT ./content/07_conclusion.tex
 INPUT ./content/07_conclusion.tex
 OUTPUT build/./content/07_conclusion.aux
@@ -997,8 +987,6 @@ INPUT ./content/07_conclusion.tex
 OUTPUT build/main.maf
 INPUT build/main.mtc
 INPUT build/main.mtc
-INPUT build/main.mtc7
-INPUT build/main.mtc7
 INPUT build/main.mtc6
 INPUT build/main.mtc6
 INPUT build/main.mtc5
@@ -1030,16 +1018,11 @@ INPUT build/./content/04_wdt_implementation.aux
 INPUT build/./content/05_evaluation.aux
 INPUT build/./content/05_evaluation.aux
 INPUT build/./content/05_evaluation.aux
-INPUT build/./content/06_discussion.aux
-INPUT build/./content/06_discussion.aux
-INPUT build/./content/06_discussion.aux
 INPUT build/./content/07_conclusion.aux
 INPUT build/./content/07_conclusion.aux
 INPUT build/./content/07_conclusion.aux
 INPUT build/main.out
 INPUT build/main.out
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb
