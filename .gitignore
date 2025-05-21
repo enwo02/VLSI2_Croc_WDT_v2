@@ -5,3 +5,6 @@ tmp
 croc.flist
 start_vnc.sh
 */saved_view.json
+.gz
+.pdf
+Report/build
